@@ -210,7 +210,7 @@ if file_sent and file_receive:
                     .sort_values('bjb_latency_minutes', ascending=False)
                     .rename(columns={
                         'waktu_sent_terakhir': 'insert_data_file_sent_terakhir', 
-                        'waktu_receive_pertama': 'insert_data_file_receive_terakhir', 
+                        'waktu_receive_pertama': 'insert_data_file_receive_pertama', 
                         'bjb_latency_minutes': 'latency_minutes', 
                         'bjb_latency_seconds': 'latency_seconds'
                     }), 
