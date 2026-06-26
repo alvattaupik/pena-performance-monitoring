@@ -464,6 +464,28 @@ elif mode_analisis == "Analisis Performa Verifikasi":
                     k5.metric("Durasi Terlama Insert Response", f"{res_proc['durasi_menit'].max():.2f} Menit", 
                               delta=f"{res_proc['durasi_detik'].max():.2f} Detik", delta_color="off")
 
+                # --- TAMBAHAN BARU: TOTAL DURASI PROSES ---
+                st.write("---")
+                k6, k7, k8 = st.columns(3)
+                if not df_req_filter.empty:
+                    total_req_dur = df_req_filter['created_at'].max() - df_req_filter['created_at'].min()
+                    total_req_min = total_req_dur.total_seconds() / 60
+                    total_req_sec = total_req_dur.total_seconds()
+                    k6.metric("Total Durasi Insert Request", f"{total_req_min:.2f} Menit", 
+                              delta=f"{total_req_sec:.2f} Detik", delta_color="off")
+                if not df_res_filter.empty:
+                    total_res_dur = df_res_filter['created_at'].max() - df_res_filter['created_at'].min()
+                    total_res_min = total_res_dur.total_seconds() / 60
+                    total_res_sec = total_res_dur.total_seconds()
+                    k7.metric("Total Durasi Insert Response", f"{total_res_min:.2f} Menit", 
+                              delta=f"{total_res_sec:.2f} Detik", delta_color="off")
+                if not df_req_filter.empty and not df_res_filter.empty:
+                    total_all_dur = df_res_filter['created_at'].max() - df_req_filter['created_at'].min()
+                    total_all_min = total_all_dur.total_seconds() / 60
+                    total_all_sec = total_all_dur.total_seconds()
+                    k8.metric("Total Durasi Seluruh Proses", f"{total_all_min:.2f} Menit", 
+                              delta=f"{total_all_sec:.2f} Detik", delta_color="off")
+
                 # --- TABEL RINCIAN ---
                 st.subheader("Rincian per File")
                 tab1, tab2, tab3 = st.tabs(["Latensi Verifikasi", "Performa File Request", "Performa File Response"])
