@@ -470,21 +470,24 @@ elif mode_analisis == "Analisis Performa Verifikasi":
                 if not df_req_filter.empty:
                     total_req_dur = df_req_filter['created_at'].max() - df_req_filter['created_at'].min()
                     total_req_min = total_req_dur.total_seconds() / 60
-                    total_req_sec = total_req_dur.total_seconds()
+                    req_start = df_req_filter['created_at'].min().strftime('%H:%M:%S')
+                    req_end = df_req_filter['created_at'].max().strftime('%H:%M:%S')
                     k6.metric("Total Durasi Insert Request", f"{total_req_min:.2f} Menit", 
-                              delta=f"{total_req_sec:.2f} Detik", delta_color="off")
+                              delta=f"Start: {req_start} | End: {req_end}", delta_color="off")
                 if not df_res_filter.empty:
                     total_res_dur = df_res_filter['created_at'].max() - df_res_filter['created_at'].min()
                     total_res_min = total_res_dur.total_seconds() / 60
-                    total_res_sec = total_res_dur.total_seconds()
+                    res_start = df_res_filter['created_at'].min().strftime('%H:%M:%S')
+                    res_end = df_res_filter['created_at'].max().strftime('%H:%M:%S')
                     k7.metric("Total Durasi Insert Response", f"{total_res_min:.2f} Menit", 
-                              delta=f"{total_res_sec:.2f} Detik", delta_color="off")
+                              delta=f"Start: {res_start} | End: {res_end}", delta_color="off")
                 if not df_req_filter.empty and not df_res_filter.empty:
                     total_all_dur = df_res_filter['created_at'].max() - df_req_filter['created_at'].min()
                     total_all_min = total_all_dur.total_seconds() / 60
-                    total_all_sec = total_all_dur.total_seconds()
+                    all_start = df_req_filter['created_at'].min().strftime('%H:%M:%S')
+                    all_end = df_res_filter['created_at'].max().strftime('%H:%M:%S')
                     k8.metric("Total Durasi Seluruh Proses", f"{total_all_min:.2f} Menit", 
-                              delta=f"{total_all_sec:.2f} Detik", delta_color="off")
+                              delta=f"Start: {all_start} | End: {all_end}", delta_color="off")
 
                 # --- TABEL RINCIAN ---
                 st.subheader("Rincian per File")
